@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update | Library Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+
+<style> /* CSS code for styling the form */ * { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header {
+            padding: 10px 0;
+            background-color: #40531b;
+            color: white;
+            text-align: center;
+        }
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #AFBC88;
+}
+
+.form-wrapper {
+    background-color: #618b4a;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 600px;
+}
+
+.sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            background-color: #333;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 1.1em;
+            color: #afbc88;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background: #575757;
+            transform: scale(1.1);
+            transition: all .2s ease-in-out;
+            border-radius: 5px;
+            margin-left: 30px;
+        }
+
+
+h2 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.submit-btn {
+    background-color: #575757;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.flash-success {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.flash-error {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            background-color: #333;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 1.1em;
+            color: #ddd;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background: #575757;
+        }
+
+</style>
+
+<div class="header">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="flash-{{ category }}" style="text-align: center;">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <h1>Library Management Dashboard</h1>
+  
+</div>
+
+<div class="sidebar">
+    <a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Home</a>
+    {% if session['logged_in'] %}
+        <a href="{{ url_for('add_book') }}"><i class="fas fa-plus"></i> Add Book</a>
+        <a href="{{ url_for('view_users') }}"><i class="fas fa-users"></i> Manage User</a>
+        <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        
+    {% else %}
+        <a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="{{ url_for('register') }}"><i class="fas fa-user-plus"></i> Register</a>
+    {% endif %}
+</div>
+
+
+
+
+
+<div class="form-wrapper">
+    <h2>Update Book Details</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <form method="POST" action="{{ url_for('update_book', book_id=book.id) }}" class="form">
+        <div class="form-group">
+            <label for="entry_number">Entry Number</label>
+            <input type="text" id="entry_number" name="entry_number" value="{{ book.entry_number }}" required>
+        </div>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" value="{{ book.title }}" required>
+        </div>
+        <div class="form-group">
+            <label for="author">Author</label>
+            <input type="text" id="author" name="author" value="{{ book.author }}" required>
+        </div>
+        <div class="form-group">
+            <label for="publisher">Publisher</label>
+            <input type="text" id="publisher" name="publisher" value="{{ book.publisher }}" required>
+        </div>
+        <div class="form-group">
+            <label for="isbn">ISBN</label>
+            <input type="text" id="isbn" name="isbn" value="{{ book.isbn }}" required>
+        </div>
+        <div class="form-group">
+            <label for="version">Version</label>
+            <input type="text" id="version" name="version" value="{{ book.version }}" required>
+        </div>
+        <div class="form-group">
+            <label for="shelf">Shelf Location</label>
+            <input type="text" id="shelf" name="shelf" value="{{ book.shelf }}" required>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="submit-btn">Update Book</button>
+        </div>
+        
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Book | Library Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+
+<style> /* CSS code for styling the form */ * { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header {
+            padding: 10px 0;
+            background-color: #40531b;
+            color: white;
+            text-align: center;
+        }
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #AFBC88;
+    
+}
+
+.form-wrapper {
+    background-color: #618b4a;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 600px;
+}
+
+.sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            background-color: #333;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 1.1em;
+            color: #afbc88;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background: #575757;
+            transform: scale(1.1);
+            transition: all .2s ease-in-out;
+            border-radius: 5px;
+            margin-left: 30px;
+        }
+
+
+h2 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.submit-btn {
+    background-color: #575757;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.form-wrapper {
+    background-color: #618b4a;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 600px;
+}
+
+.register-container {
+            background: #618b4a;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 6px 6px 20px rgba(38, 51, 42, 0.5),inset 6px 6px 20px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 400px;
+        }
+
+.flash-success {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.flash-error {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            background-color: #333;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 1.1em;
+            color: #afbc88;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background: #575757;
+        }
+
+        div.role { 
+            width: 100%; 
+            margin: 20px auto; 
+            padding: 10px; 
+            border-radius: 10px; 
+            background-color: #618b4a; }
+
+        label.role { 
+            display: block; 
+            font-weight: bold; 
+            font-size: 18px; 
+            color: #ffffff; 
+            margin-bottom: 10px; }
+
+        select.role { 
+            width: 100%; 
+            height: 30px; 
+            font-size: 16px; 
+            color: #333; 
+            padding: 5px; }
+
+            .role-options {
+                justify-content:space-around;
+            display: flex;
+            align-items: center; /* Align items vertically */
+            padding: 10px;
+            background-color: #ffffff00; /* Light grey background */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        .role-options input[type="radio"] {
+            margin-right: 5px;
+            cursor: pointer; /* Pointer cursor on hover */
+        }
+
+        .role-options label {
+            color: #ffffff;
+            font-weight: bold;
+            margin-right: 20px; /* Spacing between options */
+            padding: 5px 10px;
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s ease; /* Smooth background transition */
+        }
+
+        .role-options label:hover {
+            background-color: #2b521c;/* Slight highlight on hover */
+            border-radius: 5px;
+
+        }
+
+        /* Styling for selected radio button label */
+        .role-options input[type="radio"]:checked + label {
+            background-color: #2b521c; /* Light blue background for selected */
+            color: #ffffff; /* Optional: change text color */
+            border-radius: 5px; /* Rounded corners for label */
+        }
+
+</style>
+
+
+
+
+
+
+<body>
+
+    <div class="header">
+        <h1>Library Management Dashboard</h1>
+      
+    </div>
+
+    <div class="sidebar">
+        <a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Home</a>
+        {% if session['logged_in'] %}
+            <a href="{{ url_for('add_book') }}"><i class="fas fa-plus"></i> Add Book</a>
+            <a href="{{ url_for('view_users') }}"><i class="fas fa-users"></i> Manage User</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            
+        {% else %}
+            <a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="{{ url_for('register') }}"><i class="fas fa-user-plus"></i> Register</a>
+        {% endif %}
+    </div>
+
+<div class="form-wrapper">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+    <div class="flash-{{ category }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+    <h2>Add New User</h2>
+    <form action="/register" method="post">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input placeholder=" Please enter your username"  type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input placeholder=" Please enter your Email" type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <label class="role">I am a:</label>
+        <div class="role-options" label="Role" required>
+            <input type="radio" id="user" name="role" value="user">
+            <label for="user">User</label><br>
+            
+            <input type="radio" id="librarian" name="role" value="librarian">
+            <label for="librarian">Librarian</label>
+        </div>
+
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input placeholder=" Please enter your Password" type="password" class="form-control" id="password" name="password" minlength="9"required>
+        </div>
+        <div class="form-group">
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" class="form-control" placeholder=" Please confirm your Password"id="confirm-password" name="confirm-password" minlength="9" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add User</button>
+        <!-- Login button -->
+        <a href="/login" class="btn btn-link">Already have an account? Login</a>
+    </form>
+</div>
+
+</body>
+</html>

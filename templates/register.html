@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Community Library System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #AFBC88;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .register-container {
+            background: #618b4a;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 6px 6px 20px rgba(38, 51, 42, 0.5),inset 6px 6px 20px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: 
+             typing 3.5s steps(40, end),
+             blink-caret .75s step-end infinite;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            display: block; 
+            font-weight: bold; 
+            font-size: 18px; 
+            color: #ffffff; 
+            margin-bottom: 10px;
+        }
+        .form-group input {
+            width: 95%;
+            padding: 10px;
+            border: 1px solid #618b4a;
+            border-radius: 4px;
+        }
+        .btn-primary {
+            background-color: #7AA095;
+            color: white;
+            padding: 10px ;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition:  0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #74a89a;
+            transform: scale(1.1);
+            transition: 0.1s ease-in-out;
+        }
+        .btn-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #fcfcfc;
+            text-decoration: none;
+            transition:  0.3s ease;
+            
+        }
+        .btn-link:hover {
+            text-decoration: none;
+            transform: scale(1.1);
+            transition:  0.3s ease;
+        }
+
+        div.role { 
+            width: 100%; 
+            margin: 20px auto; 
+            padding: 10px; 
+            border-radius: 10px; 
+            background-color: #618b4a; }
+
+        label.role { 
+            display: block; 
+            font-weight: bold; 
+            font-size: 18px; 
+            color: #ffffff; 
+            margin-bottom: 10px; }
+
+        select.role { 
+            width: 100%; 
+            height: 30px; 
+            font-size: 16px; 
+            color: #333; 
+            padding: 5px; }
+
+            .role-options {
+                justify-content:space-around;
+            display: flex;
+            align-items: center; /* Align items vertically */
+            padding: 10px;
+            background-color: #ffffff00; /* Light grey background */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        .role-options input[type="radio"] {
+            margin-right: 5px;
+            cursor: pointer; /* Pointer cursor on hover */
+        }
+
+        .role-options label {
+            color: #ffffff;
+            font-weight: bold;
+            margin-right: 20px; /* Spacing between options */
+            padding: 5px 10px;
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s ease; /* Smooth background transition */
+        }
+
+        .role-options label:hover {
+            background-color: #2b521c;/* Slight highlight on hover */
+            border-radius: 5px;
+
+        }
+
+        /* Styling for selected radio button label */
+        .role-options input[type="radio"]:checked + label {
+            background-color: #2b521c; /* Light blue background for selected */
+            color: #ffffff; /* Optional: change text color */
+            border-radius: 5px; /* Rounded corners for label */
+        }
+    </style>
+    </style>
+</head>
+<body>
+    
+    <div class="register-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+        <h2>Register</h2>
+        <form action="/register" method="post">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input placeholder=" Please enter your username"  type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input placeholder=" Please enter your Email" type="email" class="form-control" id="email" name="email" required>
+            </div>
+
+            <label class="role">I am a:</label>
+            <div class="role-options" label="Role" required>
+                <input type="radio" id="user" name="role" value="user">
+                <label for="user">User</label><br>
+                
+                <input type="radio" id="librarian" name="role" value="librarian">
+                <label for="librarian">Librarian</label>
+            </div>
+
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input placeholder=" Please enter your Password" type="password" class="form-control" id="password" name="password" minlength="9"required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" class="form-control" placeholder=" Please confirm your Password"id="confirm-password" name="confirm-password" minlength="9" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+            <!-- Login button -->
+            <a href="/login" class="btn btn-link">Already have an account? Login</a>
+        </form>
+    </div>
+</body>
+</html>

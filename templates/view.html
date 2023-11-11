@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8">
+    <title>Library Catalog</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #AFBC88;
+        }
+        .header {
+            padding: 20px 40px 20px 40px;
+            background-color: #40531B;
+            color: #ffffff;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .container {
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .books-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 0.5rem;
+        }
+        .card {
+            background: #618b4a;
+            margin: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: calc(33.333% - 20px);
+            padding: 15px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            background: #446134;
+            transform: translateY(-5px);
+        }
+        .card h2 {
+            margin-top: 0;
+            color: #ffffff;
+        }
+        .card p {
+            color: #ffffff;
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+        @media (max-width: 768px) {
+            .card {
+                width: calc(50% - 20px);
+            }
+        }
+        @media (max-width: 480px) {
+            .card {
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            
+        }
+
+        
+      
+        .logout-btn {
+            padding: 10px 20px;
+            background-color: #7aa095; /* Red color */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #57726a; /* Darker shade of red */
+            text-decoration: none; /* Ensures the text decoration does not change on hover */
+        }
+
+        .search-container {
+          margin: 20px;
+          text-align: center; /* Center the search bar */
+        }
+
+        /* Styles for the search input */
+        .search-input {
+            padding: 10px 15px;
+            font-size: 16px; /* Larger font size for better readability */
+            border: 1px solid #ddd; /* Light gray border */
+            border-radius: 20px 0 0 20px; /* Rounded left corners */
+            outline: none; /* Removes the outline */
+            width: 60%; /* Set the width of the search input */
+        }
+
+        /* Styles for the search button */
+        .search-button {
+            padding: 10px 15px;
+            font-size: 16px; /* Matches the search input font size */
+            border: 1px solid #7aa095; /* Border color to match the button */
+            background-color: #7aa095; /* Bootstrap primary button color */
+            color: white;
+            border-radius: 0 20px 20px 0; /* Rounded right corners */
+            cursor: pointer; /* Changes the cursor to a pointer */
+            outline: none; /* Removes the outline */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+        }
+
+        /* Hover effect for button */
+        .search-button:hover {
+            background-color: #567069; /* Darken button on hover */
+            transform: scale(1.1);
+        }
+
+        .logout-btn {
+    margin-right: 5px; /* Adjust as needed */
+    text-decoration: none; /* Removes underline from the link */
+    color: inherit; /* Inherits the color from the parent element */
+}
+
+.logout-btn i {
+    font-size: 1.5em; /* Adjust size of the icon */
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Library Catalog</h1>
+
+        <a class="logout-btn" href="{{ url_for('logout') }}">
+            <i class="fas fa-sign-out-alt"></i> <!-- Logout Icon -->
+        </a>
+
+
+        
+    </div>
+
+    <div class="search-container">
+        <form method="POST" action="{{ url_for('search') }}">
+            <input type="text" name="query" class="search-input" placeholder="Search for books...">
+            <button type="submit" class="search-button">Search</button>
+        </form>
+    </div>
+    
+    <div class="container">
+        {% for book in books %}
+            <div class="card">
+                <h2>{{ book.title }}</h2>
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>Publisher:</strong> {{ book.publisher }}</p>
+                <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+                <p><strong>Version:</strong> {{ book.version }}</p>
+                <p><strong>Shelf:</strong> {{ book.shelf }}</p>
+            </div>
+        {% else %}
+            <p>No books found.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
