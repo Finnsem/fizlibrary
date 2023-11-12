@@ -6,10 +6,12 @@ from models import db, Book, User, SearchForm
 from flask_migrate import Migrate
 from datetime import timedelta
 from flask_caching import Cache
+import logging
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.permanent_session_lifetime = timedelta(minutes=5)
+logging.basicConfig(filename='app.log', level=logging.ERROR, format='%(asctime)s [%(levelname)s] - %(message)s')
 
 # Assuming DevelopmentConfig is defined in config.py with the necessary settings
 app.config.from_object('config.DevelopmentConfig')
@@ -103,19 +105,18 @@ def register():
         new_user = User(username=username, email=email, password_hash=hashed_password, role=role)
 
         # Add the new user to the database
-        db.session.add(new_user)
         try:
+            db.session.add(new_user)
             db.session.commit()
-        except IntegrityError:
+            flash('Account created successfully, please login.')
+            return redirect(url_for('login'))
+        except IntegrityError as e:
             db.session.rollback()
             flash('Username or email already exists.')
-            return redirect(url_for('register'))
-        
-        flash('Account created successfully, please login.')
-        return redirect(url_for('login'))
+            logging.error(f'IntegrityError: {str(e)} - Request data: {request.form.to_dict()}')
+            return "<script>handleIntegrityError();</script>"
 
     return render_template('register.html')
-
 
 from flask import session, redirect, url_for, flash, render_template, request
 
